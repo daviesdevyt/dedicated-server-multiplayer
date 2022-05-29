@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/spritesheet_characters.png" type="Texture" id=1]
+[ext_resource path="res://objects/player.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 20.8866
+
+[node name="player" type="KinematicBody2D" groups=[
+"players",
+]]
+script = ExtResource( 2 )
+
+[node name="shape" type="CollisionShape2D" parent="."]
+position = Vector2( 1.5, -2 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 11, 0 )
+scale = Vector2( 1.01786, 1.14583 )
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 176, 56, 48 )
+
+[node name="muzzle" type="Position2D" parent="."]
+position = Vector2( 44, 8 )
+
+[node name="network_tick_rate" type="Timer" parent="."]
+wait_time = 0.03
+autostart = true
+[connection signal="timeout" from="network_tick_rate" to="." method="_on_network_tick_rate_timeout"]
