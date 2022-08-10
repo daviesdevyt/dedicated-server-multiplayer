@@ -1,12 +1,13 @@
 extends KinematicBody2D
 
+
 var velocity = Vector2()
 var speed = 200
 var can_shoot = true
+var hp = 100 setget set_health
 
-
-var bullet = preload("res://objects/playerbullet.tscn")
-var hp = 100
+func set_health(value):
+	hp = value
 
 func _physics_process(delta):
 	var x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -21,16 +22,18 @@ func _physics_process(delta):
 		yield(get_tree().create_timer(0.3), "timeout")
 		can_shoot = true
 
-func _on_network_tick_rate_timeout():
+func _on_Timer_timeout():
 	Server.rpc_unreliable_id(1, "update_transform", global_position, rotation_degrees, velocity)
 
-func damage(value):
+func damage(value, bullet_name):
 	hp -= value
 	if hp <= 0:
-		Server.rpc_id(1, "player_killed")
+		
+		var killer = ""
+		for i in range(len(bullet_name)-6):
+			if bullet_name[6+i].is_valid_integer():
+				killer += bullet_name[6+i]
+			else: break
+		Server.rpc_id(1, "player_killed", killer)
 	else:
 		Server.rpc_id(1, "player_damaged", hp)
-		
-	
-	
-	

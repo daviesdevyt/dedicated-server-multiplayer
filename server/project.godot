@@ -10,18 +10,23 @@ config_version=4
 
 _global_script_classes=[  ]
 _global_script_class_icons={
+
 }
 
 [application]
 
 config/name="server"
-run/main_scene="res://server.tscn"
+run/main_scene="res://Server.tscn"
 config/icon="res://icon.png"
 
 [display]
 
-window/size/width=200
-window/size/height=200
+window/size/width=100
+window/size/height=100
+
+[physics]
+
+common/enable_pause_aware_picking=true
 
 [rendering]
 
